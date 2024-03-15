@@ -1,6 +1,7 @@
 import { Response, Request } from "express";
 import Chat from "../schemas/chat.schema";
 import Message from "../schemas/message.schema";
+import { getReceiverSocketId, io } from "../socket/socket";
 
 export const sendMessage = async (req: Request, res: Response) => {
   try {
@@ -32,6 +33,13 @@ export const sendMessage = async (req: Request, res: Response) => {
 
     await chat.save();
     await newMessage.save();
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    console.log("Receiver Socket ID:", receiverSocketId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+      console.log("se envio el mensaje: ", newMessage);
+    }
 
     res.status(201).json({ newMessage });
   } catch (error) {

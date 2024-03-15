@@ -6,7 +6,7 @@ import generateToken from "../utils/generateToken";
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { fullName, username, password, confirmPassword } = req.body;
+    const { fullname, username, password, confirmPassword } = req.body;
     if (password !== confirmPassword) {
       return res.status(400).json({ error: "No coinciden las contraseñas" });
     }
@@ -20,7 +20,7 @@ export const signup = async (req: Request, res: Response) => {
     const hashPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-      fullName,
+      fullname,
       username,
       password: hashPassword,
     });
@@ -31,7 +31,7 @@ export const signup = async (req: Request, res: Response) => {
 
       res.status(201).json({
         _id: newUser._id,
-        fullName: newUser.fullName,
+        fullname: newUser.fullname,
         username: newUser.username,
       });
     } else {
@@ -56,7 +56,7 @@ export const login = async (req: Request, res: Response) => {
       generateToken(user._id.toString(), res);
       res.status(200).json({
         _id: user._id,
-        fullname: user.fullName,
+        fullname: user.fullname,
         username: user.username,
       });
     }

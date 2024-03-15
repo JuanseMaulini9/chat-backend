@@ -7,7 +7,7 @@ import userRoutes from "./routes/user.routes";
 import connectToMongo from "./db/connnectMongoDb";
 import { UserInterface } from "./types";
 import cors from "cors";
-
+import { app, server } from "./socket/socket";
 // NO SE COMO ESTO FUNCIONA PERO FUNCIONA XD
 declare global {
   namespace Express {
@@ -17,7 +17,6 @@ declare global {
   }
 }
 
-const app = express();
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
@@ -30,7 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectToMongo();
   console.log(`Server en el puerto: ${PORT}`);
 });

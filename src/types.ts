@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 
 export interface UserInterface {
   _id: Types.ObjectId;
-  fullName: string;
+  fullname: string;
   username: string;
   password: string;
   createdAt: Date;
@@ -26,4 +26,8 @@ export interface ChatInterface {
 
 export interface TokenPayload {
   userId: string;
+}
+
+export interface UserSocketMap {
+  [userId: string]: string;
 }
